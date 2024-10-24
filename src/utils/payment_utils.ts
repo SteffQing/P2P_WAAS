@@ -1,6 +1,6 @@
 import SupabaseInstance from "../db/supabase";
 import alert from "./tg_alert";
-import cuid from "cuid";
+import { createId } from "@paralleldrive/cuid2";
 
 export type AssetType = Database["public"]["Enums"]["AssetType"];
 export type TransactionType = Database["public"]["Enums"]["TransactionType"];
@@ -50,7 +50,7 @@ export async function addTransaction(
     amount,
     userId,
     status: "Completed",
-    id: cuid(),
+    id: createId(),
     transactionType: type,
   });
   if (error) {

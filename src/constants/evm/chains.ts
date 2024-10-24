@@ -1,31 +1,22 @@
 import { type Chain } from "viem";
 import {
-  mainnet,
-  arbitrum,
-  polygon,
-  bsc,
-  base,
-  avalanche,
-  optimism,
+  sepolia,
+  arbitrumSepolia,
+  avalancheFuji,
+  polygonAmoy,
 } from "viem/chains";
 
 export default function getChainAndRPC(chainId: ID): [Chain, string] {
   switch (chainId) {
-    case 1:
-      return [mainnet, ""];
-    case 10:
-      return [optimism, "optimism-"];
-    case 56:
-      return [bsc, "bsc-"];
-    case 137:
-      return [polygon, "polygon-"];
-    case 8453:
-      return [base, "base-"];
-    case 42_161:
-      return [arbitrum, "arbitrum-"];
-    case 43_114:
-      return [avalanche, "avalanche-"];
+    case 11155111:
+      return [sepolia, "sepolia"];
+    case 421_614:
+      return [arbitrumSepolia, "arbitrum-sepolia"];
+    case 43_113:
+      return [avalancheFuji, "avalanche-fuji"];
+    case 80_002:
+      return [polygonAmoy, "polygon-amoy"];
     default:
-      return [mainnet, ""];
+      return [sepolia, "sepolia"];
   }
 }

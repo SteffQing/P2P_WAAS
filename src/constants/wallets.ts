@@ -9,9 +9,9 @@ export async function getWallets(network: Network) {
 }
 
 export async function addWalletToDB(wallet: string, network: Network = "EVM") {
-  await RedisInstance.sadd("EVM", wallet);
+  await RedisInstance.sadd(network, wallet);
   await SupabaseInstance.from("Wallet").insert({
     address: wallet,
-    network: "EVM",
+    network: network,
   });
 }

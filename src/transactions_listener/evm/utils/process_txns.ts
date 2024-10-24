@@ -6,7 +6,6 @@ import {
   getPublicClient,
   getWalletClient,
 } from "../../../constants/evm/clients";
-import { getWithdrawalFees } from "../../../constants/evm/fees";
 import { AssetType } from "../../../utils/payment_utils";
 import { deposit, withdraw } from "../../../utils/payments";
 
@@ -44,6 +43,7 @@ async function withdrawToken(
 }
 
 const MIN_TOKEN_AMOUNT = 1;
+const MAX_GAS_COST = BigInt(100000);
 async function depositToken(
   id: ID,
   amount: number,
@@ -60,9 +60,7 @@ async function depositToken(
       functionName: "depositERC20Token",
       args: [token_address],
     });
-    const withdrawalFee = await getWithdrawalFees(id);
-    const totalFees = Number(fee) + withdrawalFee.tokenFees;
-    if (amount < totalFees) return;
+    if (fee > MAX_GAS_COST) return;
     const client = getWalletClient(id, INFURA_KEY, SMARTWALLET_ADMIN);
     await client.writeContract({
       address: address,

@@ -7,7 +7,7 @@ const PRIVATE_KEY = process.env.DEPLOYER_ADMIN as `0x${string}`;
 
 export function getPublicClient(id: ID, INFURA_KEY_?: string) {
   const [network, network_url] = getChainAndRPC(id);
-  const url = `https://${network_url}mainnet.infura.io/v3/${
+  const url = `https://${network_url}.infura.io/v3/${
     INFURA_KEY_ ?? INFURA_KEY
   }`;
 
@@ -23,7 +23,7 @@ export function getWalletClient(
   PRIVATE_KEY_?: `0x${string}`
 ) {
   const [network, network_url] = getChainAndRPC(id);
-  const url = `https://${network_url}mainnet.infura.io/v3/${
+  const url = `https://${network_url}.infura.io/v3/${
     INFURA_KEY_ ?? INFURA_KEY
   }`;
 

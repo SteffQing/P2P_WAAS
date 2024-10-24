@@ -7,12 +7,12 @@ import {
 } from "./process_txns";
 
 const get_amount = (amount: bigint, id: ID, isETH: boolean = true) => {
-  const isBsc = id === 56;
+  const isPOL_Amoy = id === 80_002;
   if (isETH) {
     return Number(formatEther(amount));
   }
   // isToken -> USDT | USDC
-  if (isBsc) return Number(formatEther(amount)); //18 on BSC
+  if (isPOL_Amoy) return Number(formatEther(amount)); //18 on POL_Amoy
   return Number(formatUnits(amount, 6));
 };
 
