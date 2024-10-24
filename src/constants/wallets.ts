@@ -9,6 +9,8 @@ export async function getWallets(network: Network) {
 }
 
 export async function addWalletToDB(wallet: string, network: Network = "EVM") {
+  const exists = await RedisInstance.sismember(network, wallet);
+  if (exists === 1) return;
   await RedisInstance.sadd(network, wallet);
   await SupabaseInstance.from("Wallet").insert({
     address: wallet,
