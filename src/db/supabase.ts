@@ -1,8 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
+import { getEnvVariable } from "../constants/config";
 
-const SUPABASE_URL = process.env.SUPABASE_URL!;
-const SUPABASE_KEY = process.env.SUPABASE_KEY!;
-
-const SupabaseInstance = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
+const SupabaseInstance = createClient<Database>(
+  getEnvVariable("SUPABASE_URL"),
+  getEnvVariable("SUPABASE_KEY")
+);
 
 export default SupabaseInstance;

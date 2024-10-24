@@ -7,8 +7,9 @@ import {
 import { HOT_WALLET_CONTRACT } from "../../constants/evm/contracts";
 import { getPublicClient } from "../../constants/evm/clients";
 import { getTokens } from "../../constants/evm/tokens";
+import { getEnvVariable } from "../../constants/config";
 
-const INFURA_KEY = process.env.INFURA_KEY_3;
+const INFURA_KEY = getEnvVariable("INFURA_KEY_3");
 export default function setupListeners(id: ID, wallets: `0x${string}`[]) {
   const client = getPublicClient(id, INFURA_KEY);
   const tokens = getTokens(id);

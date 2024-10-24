@@ -8,9 +8,10 @@ import {
 } from "../../../constants/evm/clients";
 import { AssetType } from "../../../utils/payment_utils";
 import { deposit, withdraw } from "../../../utils/payments";
+import { getEnvVariable } from "../../../constants/config";
 
-const SMARTWALLET_ADMIN = process.env.SMARTWALLET_ADMIN as `0x${string}`;
-const INFURA_KEY = process.env.INFURA_KEY_3;
+const SMARTWALLET_ADMIN = getEnvVariable("SMARTWALLET_ADMIN") as `0x${string}`;
+const INFURA_KEY = getEnvVariable("INFURA_KEY_3");
 
 async function depositETH(
   id: ID,

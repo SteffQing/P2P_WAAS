@@ -1,8 +1,9 @@
 import { Redis } from "@upstash/redis";
+import { getEnvVariable } from "../constants/config";
 
 const RedisInstance = new Redis({
-  url: process.env.UPSTASH_REDIS_URL,
-  token: process.env.UPSTASH_REDIS_TOKEN,
+  url: getEnvVariable("UPSTASH_REDIS_URL"),
+  token: getEnvVariable("UPSTASH_REDIS_TOKEN"),
 });
 
 export default RedisInstance;

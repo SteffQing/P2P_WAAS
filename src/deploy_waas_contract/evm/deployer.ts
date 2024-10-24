@@ -1,13 +1,16 @@
 import { privateKeyToAddress } from "viem/accounts";
 import { ABI, BYTECODE } from "../../abi/Deployer";
 import { getWalletClient } from "../../constants/evm/clients";
+import { getEnvVariable } from "../../constants/config";
 
-const INFURA_KEY = process.env.INFURA_KEY_2;
-const PRIVATE_KEY = process.env.OWNER as `0x${string}`;
+const INFURA_KEY = getEnvVariable("INFURA_KEY_2");
+const PRIVATE_KEY = getEnvVariable("OWNER") as `0x${string}`;
 
-const DEPLOYER_ADMIN_KEY = process.env.DEPLOYER_ADMIN as `0x${string}`;
-const HOTWALLET_ADMIN = process.env.HOTWALLET_ADMIN as `0x${string}`;
-const SMARTTWALLET_ADMIN_KEY = process.env.SMARTWALLET_ADMIN as `0x${string}`;
+const DEPLOYER_ADMIN_KEY = getEnvVariable("DEPLOYER_ADMIN") as `0x${string}`;
+const HOTWALLET_ADMIN = getEnvVariable("HOTWALLET_ADMIN") as `0x${string}`;
+const SMARTTWALLET_ADMIN_KEY = getEnvVariable(
+  "SMARTWALLET_ADMIN"
+) as `0x${string}`;
 
 function deploymentArgs() {
   const DEPLOYER_ADMIN = privateKeyToAddress(DEPLOYER_ADMIN_KEY);
