@@ -1,11 +1,12 @@
 import axios from "axios";
 
 const BOT_TOKEN = process.env.BOT_TOKEN!;
+const ALERT_CHANNEL = process.env.ALERT_CHANNEL!;
 
 export default async function alert(text: string) {
   const baseUrl: string = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
   const payload = {
-    chat_id: "@p2p_logs",
+    chat_id: ALERT_CHANNEL,
     text: text,
   };
 
