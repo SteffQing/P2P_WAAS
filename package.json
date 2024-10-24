@@ -1,0 +1,29 @@
+{
+  "name": "p2p",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node dst/evm/events/sep.js",
+    "tron": "node dst/other/tron.js",
+    "build": "tsc",
+    "start": "node dst/index.js",
+    "deploy_waas_contracts": "node dst/deploy_waas_contract/index.js",
+    "deploy_smart_wallets": "node dst/deploy_smart_wallet/index.js",
+    "activate_listeners": "node dst/transactions_listener/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "supabase": "^1.207.9",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.6",
+    "@upstash/redis": "^1.34.3",
+    "cuid": "^3.0.0",
+    "tronweb": "^6.0.0",
+    "viem": "^2.21.31"
+  }
+}
