@@ -4,7 +4,7 @@ import { ABI } from "../../abi/Deployer";
 import { addWalletToDB } from "../../constants/wallets";
 import { getPublicClient, getWalletClient } from "../../constants/evm/clients";
 
-const COUNT = 10;
+const COUNT = 5;
 
 export default async function deploy(id: ID) {
   const publicClient = getPublicClient(id);
@@ -19,12 +19,16 @@ export default async function deploy(id: ID) {
   });
 
   for (let index = 0; index < COUNT; index++) {
-    await walletClient.writeContract({
+    const hash = await walletClient.writeContract({
       address: DEPLOYER_CONTTRACT,
       abi: ABI,
       functionName: "deployWallet",
     });
+    await publicClient.waitForTransactionReceipt({
+      confirmations: 5,
+      hash,
+    });
   }
 
-  unwatch();
+  return unwatch();
 }

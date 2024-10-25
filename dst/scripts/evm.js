@@ -35,59 +35,64 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = deploy;
-var viem_1 = require("viem");
-var contracts_1 = require("../../constants/evm/contracts");
-var Deployer_1 = require("../../abi/Deployer");
-var wallets_1 = require("../../constants/wallets");
-var clients_1 = require("../../constants/evm/clients");
-var COUNT = 5;
-function deploy(id) {
+exports.genKeys = genKeys;
+exports.fundOwner = fundOwner;
+exports.getAddr = getAddr;
+var accounts_1 = require("viem/accounts");
+var fs_1 = __importDefault(require("fs"));
+var dotenv_1 = __importDefault(require("dotenv"));
+var clients_1 = require("../constants/evm/clients");
+var config_1 = require("../constants/config");
+// Function to write the updated environment variables to the .env file
+function writeToEnv(envVariables) {
+    var envConfig = dotenv_1.default.parse(fs_1.default.readFileSync(".env"));
+    Object.assign(envConfig, envVariables);
+    var updatedEnv = Object.keys(envConfig)
+        .map(function (key) { return "".concat(key, "=\"").concat(envConfig[key], "\""); })
+        .join("\n");
+    fs_1.default.writeFileSync(".env", updatedEnv);
+    console.log(".env file has been updated with new keys.");
+}
+function genKeys() {
     return __awaiter(this, void 0, void 0, function () {
-        var publicClient, walletClient, unwatch, index, hash;
-        var _this = this;
+        var keys;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    publicClient = (0, clients_1.getPublicClient)(id);
-                    walletClient = (0, clients_1.getWalletClient)(id);
-                    unwatch = publicClient.watchEvent({
-                        address: contracts_1.DEPLOYER_CONTTRACT,
-                        onLogs: function (logs) {
-                            return logs.map(function (log) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, (0, wallets_1.addWalletToDB)(log.args.wallet)];
-                                    case 1: return [2 /*return*/, _a.sent()];
-                                }
-                            }); }); });
-                        },
-                        event: (0, viem_1.parseAbiItem)("event WalletCreated(address indexed wallet)"),
-                        strict: true,
-                    });
-                    index = 0;
-                    _a.label = 1;
-                case 1:
-                    if (!(index < COUNT)) return [3 /*break*/, 5];
-                    return [4 /*yield*/, walletClient.writeContract({
-                            address: contracts_1.DEPLOYER_CONTTRACT,
-                            abi: Deployer_1.ABI,
-                            functionName: "deployWallet",
-                        })];
-                case 2:
-                    hash = _a.sent();
-                    return [4 /*yield*/, publicClient.waitForTransactionReceipt({
-                            confirmations: 5,
-                            hash: hash,
-                        })];
-                case 3:
-                    _a.sent();
-                    _a.label = 4;
-                case 4:
-                    index++;
-                    return [3 /*break*/, 1];
-                case 5: return [2 /*return*/, unwatch()];
-            }
+            keys = {
+                DEPLOYER_ADMIN: (0, accounts_1.generatePrivateKey)(),
+                OWNER: (0, accounts_1.generatePrivateKey)(),
+                SMARTWALLET_ADMIN: (0, accounts_1.generatePrivateKey)(),
+                HOTWALLET_ADMIN: (0, accounts_1.generatePrivateKey)(),
+            };
+            // Write the keys to the .env file
+            writeToEnv(keys);
+            return [2 /*return*/];
         });
     });
+}
+function fundOwner(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        var client;
+        return __generator(this, function (_a) {
+            client = (0, clients_1.getWalletClient)(id, undefined, (0, config_1.getEnvVariable)("SMARTWALLET_ADMIN"));
+            client.sendTransaction({
+                to: (0, accounts_1.privateKeyToAddress)((0, config_1.getEnvVariable)("DEPLOYER_ADMIN")),
+                value: BigInt("100000000000000000"),
+            });
+            console.log("Funded");
+            return [2 /*return*/];
+        });
+    });
+}
+function getAddr() {
+    var admins = {
+        Owner: (0, accounts_1.privateKeyToAddress)((0, config_1.getEnvVariable)("OWNER")),
+        Deployer: (0, accounts_1.privateKeyToAddress)((0, config_1.getEnvVariable)("DEPLOYER_ADMIN")),
+        SmartAdmin: (0, accounts_1.privateKeyToAddress)((0, config_1.getEnvVariable)("SMARTWALLET_ADMIN")),
+        HotAdmin: (0, accounts_1.privateKeyToAddress)((0, config_1.getEnvVariable)("HOTWALLET_ADMIN")),
+    };
+    console.log(admins);
 }

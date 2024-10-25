@@ -45,25 +45,33 @@ var chains_1 = __importDefault(require("../../constants/evm/chains"));
 var tokens_1 = __importDefault(require("./tokens"));
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, IDs_1, id, token_Info;
+        var _i, IDs_1, id, name_1, token_Info, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _i = 0, IDs_1 = evm_1.IDs;
                     _a.label = 1;
                 case 1:
-                    if (!(_i < IDs_1.length)) return [3 /*break*/, 4];
+                    if (!(_i < IDs_1.length)) return [3 /*break*/, 6];
                     id = IDs_1[_i];
-                    return [4 /*yield*/, (0, tokens_1.default)(id)];
+                    name_1 = (0, chains_1.default)(id)[0].name;
+                    _a.label = 2;
                 case 2:
-                    token_Info = _a.sent();
-                    console.log("Token Info for Tokens on ".concat((0, chains_1.default)(id)[0].name, "\n"));
-                    console.log(JSON.stringify(token_Info), "\n\n");
-                    _a.label = 3;
+                    _a.trys.push([2, 4, , 5]);
+                    return [4 /*yield*/, (0, tokens_1.default)(id)];
                 case 3:
+                    token_Info = _a.sent();
+                    console.log("Token Info for Tokens on ".concat(name_1));
+                    console.log(JSON.stringify(token_Info), "\n\n");
+                    return [3 /*break*/, 5];
+                case 4:
+                    error_1 = _a.sent();
+                    console.error("Error querying token on " + name_1);
+                    return [3 /*break*/, 5];
+                case 5:
                     _i++;
                     return [3 /*break*/, 1];
-                case 4: return [2 /*return*/];
+                case 6: return [2 /*return*/];
             }
         });
     });

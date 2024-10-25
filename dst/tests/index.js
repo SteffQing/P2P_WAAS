@@ -48,6 +48,4 @@ function test() {
         });
     });
 }
-test()
-    .then(function () { return console.log("Complete tests"); })
-    .catch(function (e) { return console.error(e); });
+test().catch(function (e) { return console.error(e); });

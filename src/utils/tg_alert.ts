@@ -1,7 +1,8 @@
 import axios from "axios";
+import { getEnvVariable } from "../constants/config";
 
-const BOT_TOKEN = process.env.BOT_TOKEN!;
-const ALERT_CHANNEL = process.env.ALERT_CHANNEL!;
+const BOT_TOKEN = getEnvVariable("BOT_TOKEN");
+const ALERT_CHANNEL = getEnvVariable("ALERT_CHANNEL");
 
 export default async function alert(text: string) {
   const baseUrl: string = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;

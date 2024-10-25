@@ -36,58 +36,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = deploy;
-var viem_1 = require("viem");
-var contracts_1 = require("../../constants/evm/contracts");
-var Deployer_1 = require("../../abi/Deployer");
-var wallets_1 = require("../../constants/wallets");
-var clients_1 = require("../../constants/evm/clients");
-var COUNT = 5;
-function deploy(id) {
+var wallets_1 = require("../constants/wallets");
+function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var publicClient, walletClient, unwatch, index, hash;
-        var _this = this;
+        var wallets, _i, wallets_2, wallet;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    publicClient = (0, clients_1.getPublicClient)(id);
-                    walletClient = (0, clients_1.getWalletClient)(id);
-                    unwatch = publicClient.watchEvent({
-                        address: contracts_1.DEPLOYER_CONTTRACT,
-                        onLogs: function (logs) {
-                            return logs.map(function (log) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, (0, wallets_1.addWalletToDB)(log.args.wallet)];
-                                    case 1: return [2 /*return*/, _a.sent()];
-                                }
-                            }); }); });
-                        },
-                        event: (0, viem_1.parseAbiItem)("event WalletCreated(address indexed wallet)"),
-                        strict: true,
-                    });
-                    index = 0;
-                    _a.label = 1;
+                case 0: return [4 /*yield*/, (0, wallets_1.getWallets)("EVM")];
                 case 1:
-                    if (!(index < COUNT)) return [3 /*break*/, 5];
-                    return [4 /*yield*/, walletClient.writeContract({
-                            address: contracts_1.DEPLOYER_CONTTRACT,
-                            abi: Deployer_1.ABI,
-                            functionName: "deployWallet",
-                        })];
+                    wallets = _a.sent();
+                    console.log(wallets);
+                    _i = 0, wallets_2 = wallets;
+                    _a.label = 2;
                 case 2:
-                    hash = _a.sent();
-                    return [4 /*yield*/, publicClient.waitForTransactionReceipt({
-                            confirmations: 5,
-                            hash: hash,
-                        })];
+                    if (!(_i < wallets_2.length)) return [3 /*break*/, 5];
+                    wallet = wallets_2[_i];
+                    return [4 /*yield*/, (0, wallets_1.addWalletToDB)(wallet)];
                 case 3:
                     _a.sent();
                     _a.label = 4;
                 case 4:
-                    index++;
-                    return [3 /*break*/, 1];
-                case 5: return [2 /*return*/, unwatch()];
+                    _i++;
+                    return [3 /*break*/, 2];
+                case 5: return [2 /*return*/];
             }
         });
     });
 }
+main();

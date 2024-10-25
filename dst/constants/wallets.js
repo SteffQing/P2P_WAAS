@@ -43,6 +43,7 @@ exports.getWallets = getWallets;
 exports.addWalletToDB = addWalletToDB;
 var redis_1 = __importDefault(require("../db/redis"));
 var supabase_1 = __importDefault(require("../db/supabase"));
+var tg_alert_1 = __importDefault(require("../utils/tg_alert"));
 function getWallets(network) {
     return __awaiter(this, void 0, void 0, function () {
         var wallets;
@@ -58,24 +59,28 @@ function getWallets(network) {
 }
 function addWalletToDB(wallet_1) {
     return __awaiter(this, arguments, void 0, function (wallet, network) {
-        var exists;
+        var exists, _a, error, statusText;
         if (network === void 0) { network = "EVM"; }
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0: return [4 /*yield*/, redis_1.default.sismember(network, wallet)];
                 case 1:
-                    exists = _a.sent();
+                    exists = _b.sent();
                     if (exists === 1)
                         return [2 /*return*/];
-                    return [4 /*yield*/, redis_1.default.sadd(network, wallet)];
+                    return [4 /*yield*/, supabase_1.default.from("Wallet").insert([
+                            { address: wallet, network: network },
+                        ])];
                 case 2:
-                    _a.sent();
-                    return [4 /*yield*/, supabase_1.default.from("Wallet").insert({
-                            address: wallet,
-                            network: network,
-                        })];
+                    _a = _b.sent(), error = _a.error, statusText = _a.statusText;
+                    if (!error) return [3 /*break*/, 4];
+                    return [4 /*yield*/, (0, tg_alert_1.default)(statusText)];
                 case 3:
-                    _a.sent();
+                    _b.sent();
+                    _b.label = 4;
+                case 4: return [4 /*yield*/, redis_1.default.sadd(network, wallet)];
+                case 5:
+                    _b.sent();
                     return [2 /*return*/];
             }
         });

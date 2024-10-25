@@ -44,15 +44,17 @@ export async function addTransaction(
 ) {
   const { error, statusText } = await SupabaseInstance.from(
     "Transaction"
-  ).insert({
-    hash,
-    crypto,
-    amount,
-    userId,
-    status: "Completed",
-    id: createId(),
-    transactionType: type,
-  });
+  ).insert([
+    {
+      hash,
+      crypto,
+      amount,
+      userId,
+      status: "Completed",
+      id: createId(),
+      transactionType: type,
+    },
+  ]);
   if (error) {
     await alert(statusText);
     throw "Error occured while attempting to create a transaction object for this deposit~";

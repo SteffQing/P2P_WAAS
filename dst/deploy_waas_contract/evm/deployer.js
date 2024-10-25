@@ -44,12 +44,13 @@ var config_1 = require("../../constants/config");
 var INFURA_KEY = (0, config_1.getEnvVariable)("INFURA_KEY_2");
 var PRIVATE_KEY = (0, config_1.getEnvVariable)("OWNER");
 var DEPLOYER_ADMIN_KEY = (0, config_1.getEnvVariable)("DEPLOYER_ADMIN");
-var HOTWALLET_ADMIN = (0, config_1.getEnvVariable)("HOTWALLET_ADMIN");
+var HOTWALLET_ADMIN_KEY = (0, config_1.getEnvVariable)("HOTWALLET_ADMIN");
 var SMARTTWALLET_ADMIN_KEY = (0, config_1.getEnvVariable)("SMARTWALLET_ADMIN");
 function deploymentArgs() {
     var DEPLOYER_ADMIN = (0, accounts_1.privateKeyToAddress)(DEPLOYER_ADMIN_KEY);
     var SMARTTWALLET_ADMIN = (0, accounts_1.privateKeyToAddress)(SMARTTWALLET_ADMIN_KEY);
-    return [DEPLOYER_ADMIN, HOTWALLET_ADMIN, SMARTTWALLET_ADMIN];
+    var HOTWALLET_ADMIN = (0, accounts_1.privateKeyToAddress)(HOTWALLET_ADMIN_KEY);
+    return [SMARTTWALLET_ADMIN, HOTWALLET_ADMIN, DEPLOYER_ADMIN];
 }
 function deployContract(id) {
     return __awaiter(this, void 0, void 0, function () {

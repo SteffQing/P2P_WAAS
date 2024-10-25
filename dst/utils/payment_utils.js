@@ -99,15 +99,17 @@ function addTransaction(hash_1, crypto_1, amount_1, userId_1) {
         if (type === void 0) { type = "Deposit"; }
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, supabase_1.default.from("Transaction").insert({
-                        hash: hash,
-                        crypto: crypto,
-                        amount: amount,
-                        userId: userId,
-                        status: "Completed",
-                        id: (0, cuid2_1.createId)(),
-                        transactionType: type,
-                    })];
+                case 0: return [4 /*yield*/, supabase_1.default.from("Transaction").insert([
+                        {
+                            hash: hash,
+                            crypto: crypto,
+                            amount: amount,
+                            userId: userId,
+                            status: "Completed",
+                            id: (0, cuid2_1.createId)(),
+                            transactionType: type,
+                        },
+                    ])];
                 case 1:
                     _a = _b.sent(), error = _a.error, statusText = _a.statusText;
                     if (!error) return [3 /*break*/, 3];

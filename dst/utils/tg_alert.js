@@ -41,8 +41,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = alert;
 var axios_1 = __importDefault(require("axios"));
-var BOT_TOKEN = process.env.BOT_TOKEN;
-var ALERT_CHANNEL = process.env.ALERT_CHANNEL;
+var config_1 = require("../constants/config");
+var BOT_TOKEN = (0, config_1.getEnvVariable)("BOT_TOKEN");
+var ALERT_CHANNEL = (0, config_1.getEnvVariable)("ALERT_CHANNEL");
 function alert(text) {
     return __awaiter(this, void 0, void 0, function () {
         var baseUrl, payload, error_1;
